@@ -1,8 +1,5 @@
 <template>
   <div class="joke-container">
-    <button class="joke-button" @click="fetchJoke">
-      {{ !joke.setup ? 'Tell a joke' : 'Tell another one' }}
-    </button>
     <div class="joke">
       <div class="joke-setup invisible"></div>
       <div class="joke-punchline invisible"></div>
@@ -11,26 +8,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'JokeView',
-  data() {
-    return {
-      url: 'https://official-joke-api.appspot.com/jokes/random',
-      joke: {},
-    };
-  },
+  props: ['joke'],
   methods: {
-    async fetchJoke() {
-      try {
-        let response = await axios.get(this.url);
-        this.joke = response.data;
-        this.typeWriter();
-      } catch (error) {
-        console.log(error);
-      }
-    },
     typeWriter(text, element) {
       if (!text) return;
       let typeWriterIndex = 0;
@@ -50,14 +31,11 @@ export default {
     },
   },
   watch: {
-    joke(newJoke, oldJoke) {
-      if (!oldJoke.setup) {
-        document.querySelector('.joke-setup').classList.remove('invisible');
-      }
-
+    joke(newJoke) {
       if (newJoke) {
         document.querySelector('.joke-punchline').classList.add('invisible');
         this.deleteTypeWrittenJoke();
+        document.querySelector('.joke-setup').classList.remove('invisible');
         this.typeWriter(this.joke.setup, 'joke-setup');
         setTimeout(() => {
           document

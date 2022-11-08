@@ -1,18 +1,39 @@
 <template>
   <h1 class="headline">Make me laugh!</h1>
-  <JokeView />
+  <JokeButton :joke="joke" />
+  <JokeView :joke="joke" />
   <AcknowledgmentView />
 </template>
 
 <script>
+import JokeButton from './components/JokeButton.vue';
 import JokeView from './components/JokeView.vue';
 import AcknowledgmentView from './components/AcknowledgmentView.vue';
+
+import axios from 'axios';
 
 export default {
   name: 'App',
   components: {
+    JokeButton,
     JokeView,
     AcknowledgmentView,
+  },
+  data() {
+    return {
+      url: 'https://official-joke-api.appspot.com/jokes/random',
+      joke: {},
+    };
+  },
+  methods: {
+    async fetchJoke() {
+      try {
+        let response = await axios.get(this.url);
+        this.joke = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
