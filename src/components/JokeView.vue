@@ -1,5 +1,6 @@
 <template>
   <div class="joke-container">
+    <LoadingSpinner v-if="isLoading" />
     <div class="joke">
       <div class="joke-setup invisible"></div>
       <div class="joke-punchline invisible"></div>
@@ -8,9 +9,12 @@
 </template>
 
 <script>
+import LoadingSpinner from './LoadingSpinner.vue';
+
 export default {
   name: 'JokeView',
-  props: ['joke'],
+  components: { LoadingSpinner },
+  props: ['joke', 'isLoading'],
   methods: {
     typeWriter(text, element) {
       if (!text) return;
@@ -43,6 +47,12 @@ export default {
             .classList.remove('invisible');
           this.typeWriter(this.joke.punchline, 'joke-punchline');
         }, newJoke.setup.length * 70);
+      }
+    },
+    isLoading(change) {
+      if (change) {
+        document.querySelector('.joke-punchline').classList.add('invisible');
+        document.querySelector('.joke-setup').classList.add('invisible');
       }
     },
   },

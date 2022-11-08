@@ -1,7 +1,7 @@
 <template>
   <h1 class="headline">Make me laugh!</h1>
   <JokeButton :joke="joke" />
-  <JokeView :joke="joke" />
+  <JokeView :joke="joke" :isLoading="isLoading" />
   <AcknowledgmentView />
 </template>
 
@@ -23,13 +23,16 @@ export default {
     return {
       url: 'https://official-joke-api.appspot.com/jokes/random',
       joke: {},
+      isLoading: false,
     };
   },
   methods: {
     async fetchJoke() {
+      this.isLoading = true;
       try {
         let response = await axios.get(this.url);
         this.joke = response.data;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
