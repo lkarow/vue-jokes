@@ -1,5 +1,5 @@
 <template>
-  <button class="joke-button" @click="fetchJoke">
+  <button class="joke-button" @click="fetchJoke" :disabled="isLoading">
     {{ !joke.setup ? 'Tell a joke' : 'Tell another one' }}
   </button>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'JokeButton',
-  props: ['joke'],
+  props: ['joke', 'isLoading'],
   methods: {
     fetchJoke() {
       this.$parent.fetchJoke();
@@ -34,6 +34,10 @@ export default {
 
 .joke-button:active {
   transform: scale(0.95);
+}
+
+.joke-button:disabled {
+  opacity: 40%;
 }
 
 .invisible {

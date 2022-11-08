@@ -1,6 +1,6 @@
 <template>
   <h1 class="headline">Make me laugh!</h1>
-  <JokeButton :joke="joke" />
+  <JokeButton :joke="joke" :isLoading="isLoading" />
   <JokeView :joke="joke" :isLoading="isLoading" />
   <AcknowledgmentView />
 </template>
